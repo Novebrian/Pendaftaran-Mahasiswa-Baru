@@ -1,192 +1,187 @@
 #include <iostream>
-#include <conio.h>
-#include <stdio.h> 
-#include <string.h>
-#define MAX 10 // maksimal nomor antrian 
-
+#include <string>
+#include <limits>
 using namespace std;
 
-//struct dan array
-struct queue {
-	int data [10];
-	int awal, akhir;
-}antrian;
-//fungsi untuk mengkosongkan antrian
-void init(){
-	antrian.awal=-1;
-	antrian.akhir=-1;
+const int MAX_SIZE = 10;
+
+struct Mahasiswa {
+    string nama;
+    string ttl;
+    string asek;
+    string alamat;
+    string agama;
+    string jurusan;
+    string hp;
+    string prestasi;
+};
+
+struct Antrian {
+    Mahasiswa data[MAX_SIZE];
+    int awal, akhir, maba;
+};
+
+Antrian mhs;
+
+// Fungsi untuk menginisialisasi antrian
+void init() {
+    mhs.awal = -1;
+    mhs.akhir = -1;
 }
-//fungsi untuk pengecekan antrian yang sudah di buat queue
-bool full(){
-	if(antrian.akhir == MAX -1){
-		return true;
-	}else{
-		return false;
-	}
+
+// Fungsi untuk memeriksa apakah antrian penuh
+bool full() {
+    return (mhs.akhir == MAX_SIZE - 1);
 }
-bool empty(){
-	if(antrian.akhir == -1){
-		return true;
-	}else{
-		return false;
-	}
+
+// Fungsi untuk memeriksa apakah antrian kosong
+bool empty() {
+    return (mhs.akhir == -1);
 }
-//queue memasukkan data antrian yg didalamnya ada pointer
-void inQueue(){
-	   string  nama,ttl, asek, alamat, agama, jurusan,hp,prestasi;
-	int nilai,maba, *mabax;
-	mabax = &maba;
-	cout<<"\nBanyak Mahasiswa Yang Mendaftar : ";
-	cin>>maba;
-			 for (int a = 0; a < maba; a++) {
-		cin.ignore();
-        cout << "Nama Mahasiswa Baru    : ";
-        getline(cin, nama);
-        cout << "Tempat, Tanggal Lahir  : ";
-        getline(cin, ttl);
-        cout << "Asal Sekolah           : ";
-        getline(cin, asek);
-        cout << "Alamat                 : ";
-        getline(cin, alamat);
-        cout << "No.Hp                  : ";
-        getline(cin, hp);
-        cout << "Agama                  : ";
-        getline(cin, agama);
-        cout<<"Masukkan Nilai Akhir   : ";
-        cin>>nilai;
-        cin.ignore();
-        cout<<"Prestasi	       : ";
-        getline(cin, prestasi);
-        cout << "Pilih Jurusan          : ";
-         getline(cin, jurusan);
-        cout<<endl;
+
+// Fungsi untuk menampilkan data mahasiswa yang terdaftar
+void displayData() {
+    if (empty()) {
+        cout << "Antrian kosong" << endl;
+    } else {
+        cout << "\nData Mahasiswa:\n";
+        for (int i = mhs.awal; i <= mhs.akhir; ++i) {
+            cout << "Mahasiswa ke-" << i + 1 << endl;
+            cout << "Nama: " << mhs.data[i].nama << endl;
+            cout << "Tempat, Tanggal Lahir: " << mhs.data[i].ttl << endl;
+            cout << "Asal Sekolah: " << mhs.data[i].asek << endl;
+            cout << "Alamat: " << mhs.data[i].alamat << endl;
+            cout << "No. Hp: " << mhs.data[i].hp << endl;
+            cout << "Agama: " << mhs.data[i].agama << endl;
+            cout << "Jurusan: " << mhs.data[i].jurusan << endl;
+            cout << "Nilai Prestasi: " << mhs.data[i].prestasi << endl << endl;
+        }
     }
-	if (empty()){
-		antrian.awal =0;
-		antrian.akhir =0;
-		antrian.data[antrian.awal]=*mabax;
-	}else {
-		if(!full()){
-			antrian.akhir++;
-			cout<<"\nData berhasil ditambahkan";
-			antrian.data[antrian.akhir]=*mabax;
-		}else{
-			cout<<"\nAntrian penuh";
-		}
-	}getchar();
 }
 
+// Fungsi untuk mendaftarkan mahasiswa baru
+void inQueue() {
+    if (!full()) {
+        cout << "Banyak Mahasiswa yang mendaftar : ";
+        cin >> mhs.maba;
+        cout << endl;
 
-void tampildata(){
-	int i;
-	for (i=antrian.awal; i<=antrian.akhir; i++){
-		cout<<"Jumlah Data : "<<antrian.data[i];
-	}cout<<"\n";
+        for (int a = 0; a < mhs.maba; a++) {
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Nama Mahasiswa Baru  : ";
+            getline(cin, mhs.data[mhs.akhir + 1].nama);
+            cout << "Tempat, Tanggal Lahir: ";
+            getline(cin, mhs.data[mhs.akhir + 1].ttl);
+            cout << "Asal Sekolah         : ";
+            getline(cin, mhs.data[mhs.akhir + 1].asek);
+            cout << "Alamat               : ";
+            getline(cin, mhs.data[mhs.akhir + 1].alamat);
+            cout << "No. Hp               : ";
+            getline(cin, mhs.data[mhs.akhir + 1].hp);
+            cout << "Agama                : ";
+            getline(cin, mhs.data[mhs.akhir + 1].agama);
+            cout << "Pilih Jurusan        : ";
+            getline(cin, mhs.data[mhs.akhir + 1].jurusan);
+            cout << "Masukkan Nilai Akhir : ";
+            getline(cin, mhs.data[mhs.akhir + 1].prestasi);
+
+            mhs.akhir++;
+        }
+        cout << "\nData berhasil ditambahkan";
+    } else {
+        cout << "\nAntrian penuh";
+    }
 }
 
-
-void infojurusan(){
-	string jurusan[3]={"FIK","FES","FST"};
-	string prodi[3]={"Sistem Informasi, Ilmu Komputer, Teknik Informatika", "Ilmu komunikasi, Akuntansi, Ilmu Ekonomi","Arsitektur, Perencanaan Wilayah dan Kota, Geografi"};
-	string temp;
-	
-	//buble sort
-		for (int k=1;k<3;k++){
-		for (int j=3-1;j>=k;j--){
-			if(jurusan[j]<jurusan[j-1]){
-				temp=jurusan[j];
-				jurusan[j]=jurusan[j-1];
-				jurusan[j-1]=temp;
-			}
-		}
-	}
-	//insertion sort
-	for(int i=0;i<3;i++){
-		string key = prodi[i];
-		int j = i-1;
-		while(j>=0 && prodi[j]>key){
-			prodi[j+1]=prodi[j];
-			j--;
-		}prodi[j+1]=key;
-	}
-	
-	
-	string dtCari, jurusan_ketemu;
-	bool ketemu= false;
-	
-	cout<<"Fakultas yang dicari : ";
-	cin>>dtCari;
-	//searching sentinel
-	for(int i=0;i<3;i++){
-		if(jurusan[i]==dtCari){
-			ketemu=true;
-			jurusan_ketemu = jurusan[i];
-		}
-	}if (ketemu= true){ //searching
-		cout<<"\nFakultas ditemukan"<<endl;
-		cout<<"\nHasil pencarian Fakultas "<<jurusan_ketemu<<" berisi Prodi :";
-		if (jurusan_ketemu == "FIK")
-		cout<<prodi[2];
-		if (jurusan_ketemu == "FES")
-		cout<<prodi[1];
-		if (jurusan_ketemu == "FST")
-		cout<<prodi[0];
-	}
-	else {
-		cout<<"Fakultas tidak ditemukan !";
-	}
+// Fungsi untuk menampilkan seluruh data mahasiswa yang telah didaftarkan
+void displayAllData() {
+    if (empty()) {
+        cout << "Antrian kosong" << endl;
+    } else {
+        cout << "\nData Mahasiswa yang Telah Didftar:\n";
+        for (int i = 0; i <= mhs.akhir; ++i) {
+            cout << "Mahasiswa ke-" << i + 1 << endl;
+            cout << "Nama: " << mhs.data[i].nama << endl;
+            cout << "Tempat, Tanggal Lahir: " << mhs.data[i].ttl << endl;
+            cout << "Asal Sekolah: " << mhs.data[i].asek << endl;
+            cout << "Alamat: " << mhs.data[i].alamat << endl;
+            cout << "No. Hp: " << mhs.data[i].hp << endl;
+            cout << "Agama: " << mhs.data[i].agama << endl;
+            cout << "Jurusan: " << mhs.data[i].jurusan << endl;
+            cout << "Nilai Prestasi: " << mhs.data[i].prestasi << endl << endl;
+        }
+    }
 }
 
-void clear(){
-	antrian.awal=-1;
-	antrian.akhir=-1;
-}
-int main(){
-	
-	int pilihan, elemen;
-	
-	cout<<"\n=====================================";
-	cout<<"\n|    	   SELAMAT DATANG DI         |";
-	cout<<"\n|    UNIVERSITAS AMIKOM YOGYAKARTA   |";
-	cout<<"\n=====================================";
-	cout<<"\n|          Fakultas :	             |";
-	cout<<"\n| 1. FIK			     |";
-	cout<<"\n| 2. FES 			     |";
-	cout<<"\n| 3. FST			     |";
-	cout<<"\n=====================================";
-	cout<<endl;
-	init();
-	
-	do{
-	cout<<endl;
-	cout<<"\n-----------------------------------";
-	cout<<"\n      Pilih salah satu";
-	cout<<"\n-----------------------------------";
-	cout<<"\n    1. Pendaftaran Mahasiswa Baru";
-	cout<<"\n    2. Informasi Jurusan";
-	cout<<"\n    3. Jumlah Data";
-	cout<<"\n    4. menghapus data";
-	cout<<"\n    0. keluar";
-	cout<<"\n==================================";
-	cout<<"\nMasukan pilihan anda = ";
-	cin>>pilihan;
-	
-	switch (pilihan){
-		case 1: inQueue();
-		break;
-		case 2: infojurusan();
-		break;
-		case 3: tampildata();
-		break;
-		case 4: clear();
-		break;
-	
-	
-		
-		}
-	}
-	while(pilihan!=0);
-	return 0;
-	
+// Fungsi untuk menampilkan jumlah data mahasiswa
+void tampildata() {
+    cout << "Jumlah Data: " << mhs.akhir-mhs.awal << endl;
 }
 
+// Fungsi untuk menghapus data mahasiswa
+void clear() {
+    mhs.awal = -1;
+    mhs.akhir = -1;
+}
+
+void dequeue() {
+    if (empty()) {
+        cout << "Antrian kosong" << endl;
+    } else {
+        cout << "Data Mahasiswa ke-1 telah dihapus" << endl;
+
+        // Geser seluruh elemen antrian ke depan
+        for (int i = 0; i < mhs.akhir; ++i) {
+            mhs.data[i] = mhs.data[i + 1];
+        }
+
+        mhs.akhir--; // Kurangi jumlah elemen di antrian
+    }
+}
+
+// Fungsi utama
+int main() {
+    int pilihan;
+
+    cout << "SELAMAT DATANG DI UNIVERSITAS AMIKOM YOGYAKARTA" << endl;
+    cout << "Fakultas : " << endl;
+    cout << "1. FIK" << endl;
+    cout << "2. FES" << endl;
+    cout << "3. FST" << endl;
+
+    init();
+
+    do {
+        cout << "\nPilih salah satu" << endl;
+        cout << "1. Pendaftaran Mahasiswa Baru" << endl;
+        cout << "2. Informasi Jurusan" << endl;
+        cout << "3. Jumlah Data" << endl;
+        cout << "4. Tampilkan Semua Data" << endl;
+        cout << "5. Menghapus Data" << endl;
+        cout << "0. Keluar" << endl;
+        cout << "Masukkan pilihan anda : ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                inQueue();
+                break;
+            case 2:
+                // infojurusan();
+                break;
+            case 3:
+                tampildata();
+                break;
+        	case 4:
+        		displayAllData();
+        		break;
+            case 5:
+                dequeue();
+                break;
+            default:
+                cout << "Pilihan tidak valid" << endl;
+        }
+    } while (pilihan != 0);
+
+    return 0;
+}
