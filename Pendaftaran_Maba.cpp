@@ -276,29 +276,16 @@ void blacklistMahasiswa() {
 }
 
 void displayBlacklisted() {
-    int no = 1;
-
+	int no=1;
+	
     if (mhs.blacklist.isEmpty()) {
         cout << "\n\nDaftar blacklist kosong.\n";
     } else {
         cout << "\nDaftar Mahasiswa yang Terdaftar di Blacklist:\n";
-        string namaToSearch;
-        cout << "Masukkan nama mahasiswa yang ingin dicari: ";
-        cin.ignore();
-        getline(cin, namaToSearch);
-
-        bool found = false;
         for (int i = mhs.blacklist.top; i >= 0; --i) {
             Mahasiswa calonMahasiswa = mhs.blacklist.items[i];
-            if (calonMahasiswa.nama == namaToSearch) {
-                cout << no << ". Nama: " << calonMahasiswa.nama << ", Asal Sekolah: " << calonMahasiswa.asek << endl;
-                no++;
-                found = true;
-            }
-        }
-
-        if (!found) {
-            cout << "Nama mahasiswa tidak ditemukan dalam daftar blacklist." << endl;
+            cout << no << ". Nama: " << calonMahasiswa.nama << ", Asal Sekolah: " << calonMahasiswa.asek << endl;
+            no++;
         }
     }
 
