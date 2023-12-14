@@ -57,15 +57,20 @@ struct BlacklistStack {
 
 
 struct Antrian {
-    Mahasiswa data[MAX_SIZE];
+    Mahasiswa *data;
     int awal, akhir, maba;
     BlacklistStack blacklist; // Stack untuk menyimpan data mahasiswa yang di-blacklist
 
     Antrian() {
+    	data = new Mahasiswa[MAX_SIZE];
         awal = -1;
         akhir = -1;
         maba = -1;
     }
+    
+    ~Antrian() {
+    	delete[] data;
+	}
 };
 
 Antrian mhs;
