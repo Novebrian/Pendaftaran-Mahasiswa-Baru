@@ -118,6 +118,16 @@ void inQueue() {
     }
 }
 
+// Fungsi untuk menampilkan jumlah data mahasiswa
+void tampildata() {
+	cout << "\n================================================\n";
+    cout << "Jumlah Data : " << mhs.akhir-mhs.awal << endl;
+    cout << "================================================\n";
+    
+    system("pause"); // Menahan layar sebelum membersihkan layar konsol
+    system("cls"); // Membersihkan layar konsol
+}
+
 
 // Fungsi untuk menampilkan seluruh data mahasiswa yang telah didaftarkan
 void displayAllData() {
@@ -171,9 +181,9 @@ void displayAllData() {
                 getline(cin, namaToSearch);
 
                 bool found = false;
-                cout << "======================================================" << endl;
+                cout << "========================================================================================================================================================" << endl;
                 cout << setw(2) << "No." << setw(20) << "Nama" << setw(25) << "Tempat, Tanggal Lahir" << setw(25) << "Asal Sekolah" << setw(25) << "Alamat" << setw(15) << "No. Hp" << setw(15) << "Agama" << setw(20) << "Nilai Prestasi" << endl;
-                cout << "======================================================" << endl;
+                cout << "========================================================================================================================================================" << endl;
 
                 for (int i = 0; i <= mhs.akhir; ++i) {
                     if (mhs.data[i].nama.find(namaToSearch) != string::npos) {
@@ -186,7 +196,7 @@ void displayAllData() {
                     cout << "Data tidak ditemukan." << endl;
                 }
 
-                cout << "======================================================" << endl;
+                cout << "========================================================================================================================================================" << endl;
 
                 system("pause"); // Menahan layar sebelum membersihkan layar konsol
                 system("cls"); // Membersihkan layar konsol
@@ -199,30 +209,19 @@ void displayAllData() {
             return;
         }
 
-        cout << "======================================================" << endl;
+        cout << "========================================================================================================================================================" << endl;
         cout << setw(2) << "No." << setw(20) << "Nama" << setw(25) << "Tempat, Tanggal Lahir" << setw(25) << "Asal Sekolah" << setw(25) << "Alamat" << setw(15) << "No. Hp" << setw(15) << "Agama" << setw(20) << "Nilai Prestasi" << endl;
-        cout << "======================================================" << endl;
+        cout << "========================================================================================================================================================" << endl;
 
         for (int i = 0; i <= mhs.akhir; ++i) {
             cout << setw(2) << i + 1 << setw(20) << mhs.data[i].nama << setw(25) << mhs.data[i].ttl << setw(25) << mhs.data[i].asek << setw(25) << mhs.data[i].alamat << setw(15) << mhs.data[i].hp << setw(15) << mhs.data[i].agama << setw(20) << mhs.data[i].prestasi << endl;
         }
 
-        cout << "======================================================" << endl;
+        cout << "=========================================================================================================================================================" << endl;
 
         system("pause"); // Menahan layar sebelum membersihkan layar konsol
         system("cls"); // Membersihkan layar konsol
     }
-}
-
-
-// Fungsi untuk menampilkan jumlah data mahasiswa
-void tampildata() {
-	cout << "\n================================================\n";
-    cout << "Jumlah Data : " << mhs.akhir-mhs.awal << endl;
-    cout << "================================================\n";
-    
-    system("pause"); // Menahan layar sebelum membersihkan layar konsol
-    system("cls"); // Membersihkan layar konsol
 }
 
 void dequeue() {
@@ -231,7 +230,7 @@ void dequeue() {
         system("pause");
         system("cls");
     } else {
-        cout << "\nData Antrian Mahasiswa telah dihapus\n" << endl;
+        cout << "Mahasiswa atas nama : " << mhs.data[0].nama << " telah dikeluarkan dari antrian" << endl;
 
         // Geser seluruh elemen antrian ke depan
         for (int i = 0; i < mhs.akhir; ++i) {
@@ -239,7 +238,7 @@ void dequeue() {
         }
 
         mhs.akhir--; // Kurangi jumlah elemen di antrian
-        
+
         system("pause");
         system("cls");
     }
@@ -271,6 +270,37 @@ void blacklistMahasiswa() {
     system("cls");
 }
 
+void displayBlacklisted() {
+    int no = 1;
+
+    if (mhs.blacklist.isEmpty()) {
+        cout << "\n\nDaftar blacklist kosong.\n";
+    } else {
+        cout << "\nDaftar Mahasiswa yang Terdaftar di Blacklist:\n";
+        string namaToSearch;
+        cout << "Masukkan nama mahasiswa yang ingin dicari: ";
+        cin.ignore();
+        getline(cin, namaToSearch);
+
+        bool found = false;
+        for (int i = mhs.blacklist.top; i >= 0; --i) {
+            Mahasiswa calonMahasiswa = mhs.blacklist.items[i];
+            if (calonMahasiswa.nama == namaToSearch) {
+                cout << no << ". Nama: " << calonMahasiswa.nama << ", Asal Sekolah: " << calonMahasiswa.asek << endl;
+                no++;
+                found = true;
+            }
+        }
+
+        if (!found) {
+            cout << "Nama mahasiswa tidak ditemukan dalam daftar blacklist." << endl;
+        }
+    }
+
+    system("pause");
+    system("cls");
+}
+
 Mahasiswa removeFromBlacklist() {
     Mahasiswa removedMahasiswa;
     if (!mhs.blacklist.isEmpty()) {
@@ -284,24 +314,6 @@ Mahasiswa removeFromBlacklist() {
     system("pause");
     system("cls");
     return removedMahasiswa;
-}
-
-void displayBlacklisted() {
-	int no=1;
-	
-    if (mhs.blacklist.isEmpty()) {
-        cout << "\n\nDaftar blacklist kosong.\n";
-    } else {
-        cout << "\nDaftar Mahasiswa yang Terdaftar di Blacklist:\n";
-        for (int i = mhs.blacklist.top; i >= 0; --i) {
-            Mahasiswa calonMahasiswa = mhs.blacklist.items[i];
-            cout << no << ". Nama: " << calonMahasiswa.nama << ", Asal Sekolah: " << calonMahasiswa.asek << endl;
-            no++;
-        }
-    }
-
-    system("pause");
-    system("cls");
 }
 
 
